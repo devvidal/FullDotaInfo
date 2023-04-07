@@ -14,3 +14,9 @@ dependencyResolutionManagement {
 }
 rootProject.name = "FullDotaInfo"
 include ':app'
+include ':core'
+include ':hero'
+include ':hero:hero-datasource'
+include ':hero:hero-domain'
+include ':hero:hero-interactors'
+include ':constants'
