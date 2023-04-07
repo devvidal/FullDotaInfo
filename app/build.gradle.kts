@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "com.dvidal.fulldotainfo"
-    compileSdk = 33
+    namespace = Android.appId
+    compileSdk = Android.compileSdk
 
     defaultConfig {
-        applicationId = "com.dvidal.fulldotainfo"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Android.appId
+        minSdk = Android.minSdk
+        targetSdk = Android.targetSdk
+        versionCode = Android.versionCode
+        versionName = Android.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,11 +30,10 @@ android {
 
     buildFeatures {
         compose = true
-        viewBinding = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = Compose.composeKotlinVersion
     }
 
     kotlinOptions {
@@ -44,16 +43,16 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation(AndroidX.coreKtx)
+    implementation(AndroidX.appCompat)
+    implementation(AndroidX.lifecycleVmKtx)
 
-    implementation("androidx.activity:activity-compose:1.6.1")
-    implementation("androidx.compose.material:material:1.3.1")
-    implementation("androidx.compose.runtime:runtime:1.3.3")
+    implementation(Compose.activity)
+    implementation(Compose.ui)
+    implementation(Compose.material)
+    implementation(Compose.tooling)
+    implementation(Compose.navigation)
+    implementation(Compose.hiltNavigation)
 
-    testImplementation("junit:junit:4.13.2")
-
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(Google.material)
 }
