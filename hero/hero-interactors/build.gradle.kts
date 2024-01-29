@@ -1,9 +1,11 @@
-plugins {
-    id("java-library")
-    id("org.jetbrains.kotlin.jvm")
+apply {
+    from("$rootDir/library-build.gradle")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+dependencies {
+    "implementation"(project(Modules.core))
+    "implementation"(project(Modules.heroDataSource))
+    "implementation"(project(Modules.heroDomain))
+
+    "implementation"(Kotlinx.coroutinesCore)
 }
