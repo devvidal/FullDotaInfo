@@ -21,12 +21,12 @@ object MyCompose {
     private const val activityComposeVersion = "1.8.2"
     const val ComposeKotlinCompiler_Version = "1.5.9"
     const val ComposeBom_Version = "2024.02.00"
-    const val ComposeBom = "androidx.compose:compose-bom:$ComposeBom_Version"
+    const val composeBom = "androidx.compose:compose-bom:$ComposeBom_Version"
     const val ComposeActivity = "androidx.activity:activity-compose:$activityComposeVersion"
-    const val ComposeRuntime = "androidx.compose.runtime:runtime"
+    const val composeRuntime = "androidx.compose.runtime:runtime"
     const val ComposeLifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-compose"
-    const val ComposeUI = "androidx.compose.ui:ui"
-    const val ComposeMaterial = "androidx.compose.material:material"
+    const val composeUi = "androidx.compose.ui:ui"
+    const val composeMaterial = "androidx.compose.material:material"
     const val ComposeTooling = "androidx.compose.ui:ui-tooling"
 }
 

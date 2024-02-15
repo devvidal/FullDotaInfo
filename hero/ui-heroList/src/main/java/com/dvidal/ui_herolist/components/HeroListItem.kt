@@ -20,11 +20,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
+import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.dvidal.hero_domain.Hero
 import com.dvidal.ui_herolist.R
 import com.dvidal.ui_herolist.ui.test.TAG_HERO_NAME
@@ -34,7 +38,6 @@ import kotlin.math.roundToInt
 @Composable
 fun HeroListItem(
     hero: Hero,
-    imageLoader: ImageLoader,
     onSelectHero: (Int) -> Unit
 ){
     Surface(
@@ -54,23 +57,22 @@ fun HeroListItem(
             ,
             verticalAlignment = Alignment.CenterVertically
         ){
-            val painter = rememberImagePainter(
-                data = hero.img,
-                imageLoader = imageLoader,
-                builder = {
-                    placeholder(
-                        if (isSystemInDarkTheme())
-                            R.drawable.black_background
-                        else R.drawable.white_background
-                    )
-                }
-            )
-            Image(
+
+            AsyncImage(
                 modifier = Modifier
                     .width(120.dp)
                     .height(70.dp)
                     .background(Color.LightGray),
-                painter = painter,
+                model = ImageRequest.Builder(context = LocalContext.current)
+                    .data(HERO_IMAGE)
+                    .crossfade(true)
+                    .build(),
+                error = painterResource(R.drawable.error_image),
+                placeholder = painterResource(
+                    if (isSystemInDarkTheme())
+                        R.drawable.black_background
+                    else R.drawable.white_background
+                ),
                 contentDescription = hero.localizedName,
                 contentScale = ContentScale.Crop
             )
@@ -117,3 +119,5 @@ fun HeroListItem(
         }
     }
 }
+
+private const val HERO_IMAGE = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/life_stealer.png"

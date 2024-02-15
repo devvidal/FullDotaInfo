@@ -26,18 +26,9 @@ class MainActivity : ComponentActivity() {
     private val state = mutableStateOf(HeroListState())
     private val progressBarState: MutableState<ProgressBarState> =
         mutableStateOf(ProgressBarState.Idle)
-    private lateinit var imageLoader: ImageLoader
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Init ImageLoader
-        imageLoader = ImageLoader.Builder(applicationContext)
-            .error(R.drawable.error_image)
-            .placeholder(R.drawable.white_background)
-            .memoryCache { MemoryCache.Builder(applicationContext).maxSizePercent(.25).build() }
-            .crossfade(true)
-            .build()
 
         val getHeros = HeroInteractors.build(
             sqlDriver = AndroidSqliteDriver(
@@ -52,7 +43,6 @@ class MainActivity : ComponentActivity() {
                 is DataState.Data -> {
                     state.value = state.value.copy(heros = dataState.data ?: emptyList())
                 }
-
                 is DataState.Loading -> progressBarState.value = dataState.pbState
                 is DataState.Response -> {
                     when (dataState.uiComponent) {
@@ -67,7 +57,6 @@ class MainActivity : ComponentActivity() {
             DotaInfoTheme {
                 HeroListScreen(
                     state = state.value,
-                    imageLoader = imageLoader
                 )
             }
         }

@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -39,6 +41,11 @@ android {
     kotlinOptions {
         jvmTarget = "19"
     }
+
+    // Allow references to generated code
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
@@ -52,16 +59,20 @@ dependencies {
     implementation(AndroidX.lifecycleVmKtx)
 
     // Compose
-    val composeBom = platform(MyCompose.ComposeBom)
+    val composeBom = platform(MyCompose.composeBom)
     implementation(composeBom)
 
-    implementation(MyCompose.ComposeRuntime)
-    implementation(MyCompose.ComposeUI)
-    implementation(MyCompose.ComposeMaterial)
+    implementation(MyCompose.composeRuntime)
+    implementation(MyCompose.composeUi)
+    implementation(MyCompose.composeMaterial)
     implementation(MyCompose.ComposeActivity)
 
     implementation(Coil.coil)
 
     implementation(Google.material)
+
     implementation(SqlDelight.androidDriver)
+
+    implementation(Hilt.android)
+//    kapt(Hilt.compiler)
 }

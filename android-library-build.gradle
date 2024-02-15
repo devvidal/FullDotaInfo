@@ -38,6 +38,11 @@ android {
         exclude("META-INF/AL2.0")
         exclude("META-INF/LGPL2.1")
     }
+
+    // Allow references to generated code
+    kapt {
+        correctErrorTypes true
+    }
 }
 
 dependencies{
@@ -46,21 +51,13 @@ dependencies{
     implementation AndroidX.appCompat
     implementation AndroidX.lifecycleVmKtx
 
-//    implementation Compose.activity
-//    implementation Compose.ui
-//    implementation Compose.material
-//    implementation Compose.tooling
-//    implementation Compose.navigation
-//    implementation Compose.hiltNavigation
-
     // Compose
-    def composeBom = platform(MyCompose.ComposeBom)
+    def composeBom = platform(MyCompose.composeBom)
     implementation(composeBom)
 
-    implementation(MyCompose.ComposeRuntime)
-    implementation(MyCompose.ComposeUI)
-    implementation(MyCompose.ComposeMaterial)
-//    implementation(MyCompose.ComposeActivity)
+    implementation(MyCompose.composeRuntime)
+    implementation(MyCompose.composeUi)
+    implementation(MyCompose.composeMaterial)
 
     implementation Google.material
 

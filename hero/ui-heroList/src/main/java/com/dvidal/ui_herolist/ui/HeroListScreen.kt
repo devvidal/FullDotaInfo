@@ -14,15 +14,13 @@ import com.dvidal.ui_herolist.components.HeroListItem
 
 @Composable
 fun HeroListScreen(
-    state: HeroListState,
-    imageLoader: ImageLoader
+    state: HeroListState
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn {
             items(state.heros) { hero ->
                 HeroListItem(
                     hero = hero,
-                    imageLoader = imageLoader,
                     onSelectHero = {}
                 )
             }
