@@ -33,11 +33,11 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Compose.composeKotlinVersion
+        kotlinCompilerExtensionVersion = MyCompose.ComposeKotlinCompiler_Version
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "19"
     }
 }
 
@@ -51,12 +51,16 @@ dependencies {
     implementation(AndroidX.appCompat)
     implementation(AndroidX.lifecycleVmKtx)
 
-    implementation(Compose.activity)
-    implementation(Compose.ui)
-    implementation(Compose.material)
-    implementation(Compose.tooling)
-    implementation(Compose.navigation)
-    implementation(Compose.hiltNavigation)
+    // Compose
+    val composeBom = platform(MyCompose.ComposeBom)
+    implementation(composeBom)
+
+    implementation(MyCompose.ComposeRuntime)
+    implementation(MyCompose.ComposeUI)
+    implementation(MyCompose.ComposeMaterial)
+    implementation(MyCompose.ComposeActivity)
+
+    implementation(Coil.coil)
 
     implementation(Google.material)
     implementation(SqlDelight.androidDriver)

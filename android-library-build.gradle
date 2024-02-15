@@ -4,7 +4,6 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion Android.compileSdk
-    buildToolsVersion Android.buildTools
 
     defaultConfig {
         minSdkVersion Android.minSdk
@@ -25,15 +24,16 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "19"
     }
     buildFeatures {
         compose true
     }
+
     composeOptions {
-        kotlinCompilerExtensionVersion Compose.composeVersion
-        kotlinCompilerVersion Kotlin.version
+        kotlinCompilerExtensionVersion MyCompose.ComposeKotlinCompiler_Version
     }
+
     packagingOptions {
         exclude("META-INF/AL2.0")
         exclude("META-INF/LGPL2.1")
@@ -46,12 +46,21 @@ dependencies{
     implementation AndroidX.appCompat
     implementation AndroidX.lifecycleVmKtx
 
-    implementation Compose.activity
-    implementation Compose.ui
-    implementation Compose.material
-    implementation Compose.tooling
-    implementation Compose.navigation
-    implementation Compose.hiltNavigation
+//    implementation Compose.activity
+//    implementation Compose.ui
+//    implementation Compose.material
+//    implementation Compose.tooling
+//    implementation Compose.navigation
+//    implementation Compose.hiltNavigation
+
+    // Compose
+    def composeBom = platform(MyCompose.ComposeBom)
+    implementation(composeBom)
+
+    implementation(MyCompose.ComposeRuntime)
+    implementation(MyCompose.ComposeUI)
+    implementation(MyCompose.ComposeMaterial)
+//    implementation(MyCompose.ComposeActivity)
 
     implementation Google.material
 

@@ -8,17 +8,23 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import coil.ImageLoader
 import com.dvidal.core.ProgressBarState
 import com.dvidal.ui_herolist.components.HeroListItem
 
 @Composable
 fun HeroListScreen(
-    state: HeroListState
+    state: HeroListState,
+    imageLoader: ImageLoader
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn {
             items(state.heros) { hero ->
-                HeroListItem(hero = hero, onSelectHero = {})
+                HeroListItem(
+                    hero = hero,
+                    imageLoader = imageLoader,
+                    onSelectHero = {}
+                )
             }
         }
         if (state.pbState is ProgressBarState.Loading) {
