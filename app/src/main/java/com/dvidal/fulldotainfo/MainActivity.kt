@@ -3,10 +3,9 @@ package com.dvidal.fulldotainfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.Text
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import coil.ImageLoader
-import coil.memory.MemoryCache
 import com.dvidal.core.DataState
 import com.dvidal.core.Logger
 import com.dvidal.core.ProgressBarState
@@ -16,11 +15,13 @@ import com.dvidal.hero_interactors.HeroInteractors
 import com.dvidal.ui_herolist.ui.HeroListScreen
 import com.dvidal.ui_herolist.ui.HeroListState
 import com.squareup.sqldelight.android.AndroidSqliteDriver
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val state = mutableStateOf(HeroListState())
@@ -50,6 +51,7 @@ class MainActivity : ComponentActivity() {
                         is UIComponent.None -> logger.log((dataState.uiComponent as UIComponent.None).message)
                     }
                 }
+                else -> {}
             }
         }.launchIn(CoroutineScope(IO))
 

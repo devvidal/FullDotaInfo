@@ -1,8 +1,8 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    kotlin("kapt")
 }
 
 android {
@@ -39,7 +39,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "19"
+        jvmTarget = "1.8"
     }
 
     // Allow references to generated code
@@ -74,5 +74,5 @@ dependencies {
     implementation(SqlDelight.androidDriver)
 
     implementation(Hilt.android)
-//    kapt(Hilt.compiler)
+    kapt(Hilt.compiler)
 }
