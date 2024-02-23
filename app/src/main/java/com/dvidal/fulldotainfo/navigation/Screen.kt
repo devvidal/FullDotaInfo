@@ -3,6 +3,7 @@ package com.dvidal.fulldotainfo.navigation
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.dvidal.constants.Constants
 
 sealed class Screen(
     val route: String,
@@ -17,14 +18,9 @@ sealed class Screen(
     data object HeroDetail: Screen(
         route = "heroDetail",
         arguments = listOf(
-            navArgument(ARG_HERO_ID) {
+            navArgument(Constants.ARG_HERO_ID) {
                 type = NavType.IntType
             }
         )
     )
-
-    companion object {
-
-        const val ARG_HERO_ID = "heroId"
-    }
 }

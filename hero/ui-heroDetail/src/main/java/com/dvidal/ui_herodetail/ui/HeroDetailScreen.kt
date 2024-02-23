@@ -4,9 +4,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun HeroDetail(
-    heroId: Int?
+fun HeroDetailScreen(
+    state: HeroDetailState
 ) {
 
-    Text(text = "Hero id is $heroId")
+    Text(text = "Hero name is ${state.hero?.localizedName} ")
 }

@@ -47,6 +47,8 @@ android {
 
 dependencies{
 
+    implementation(project(Modules.constants))
+
     implementation AndroidX.coreKtx
     implementation AndroidX.appCompat
     implementation AndroidX.lifecycleVmKtx

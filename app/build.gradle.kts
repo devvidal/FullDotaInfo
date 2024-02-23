@@ -50,6 +50,7 @@ android {
 
 dependencies {
     implementation(project(Modules.core))
+    implementation(project(Modules.constants))
     implementation(project(Modules.heroDomain))
     implementation(project(Modules.heroInteractors))
     implementation(project(Modules.ui_heroList))
