@@ -1,11 +1,9 @@
 package com.dvidal.ui_herolist.components
 
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,9 +23,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.ImageLoader
 import coil.compose.AsyncImage
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.dvidal.hero_domain.Hero
 import com.dvidal.ui_herolist.R
@@ -38,6 +34,7 @@ import kotlin.math.roundToInt
 @Composable
 fun HeroListItem(
     hero: Hero,
+    imageBuilder: ImageRequest.Builder,
     onSelectHero: (Int) -> Unit
 ){
     Surface(
@@ -63,7 +60,7 @@ fun HeroListItem(
                     .width(120.dp)
                     .height(70.dp)
                     .background(Color.LightGray),
-                model = ImageRequest.Builder(context = LocalContext.current)
+                model = imageBuilder
                     .data(HERO_IMAGE)
                     .crossfade(true)
                     .build(),

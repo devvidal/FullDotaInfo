@@ -31,7 +31,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion MyCompose.ComposeKotlinCompiler_Version
+        kotlinCompilerExtensionVersion Compose.composeKotlinCompilerVersion
     }
 
     packagingOptions {
@@ -52,12 +52,12 @@ dependencies{
     implementation AndroidX.lifecycleVmKtx
 
     // Compose
-    def composeBom = platform(MyCompose.composeBom)
+    def composeBom = platform(Compose.composeBom)
     implementation(composeBom)
 
-    implementation(MyCompose.composeRuntime)
-    implementation(MyCompose.composeUi)
-    implementation(MyCompose.composeMaterial)
+    implementation(Compose.composeRuntime)
+    implementation(Compose.composeUi)
+    implementation(Compose.composeMaterial)
 
     implementation Google.material
 

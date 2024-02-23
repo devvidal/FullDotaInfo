@@ -35,7 +35,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = MyCompose.ComposeKotlinCompiler_Version
+        kotlinCompilerExtensionVersion = Compose.composeKotlinCompilerVersion
     }
 
     kotlinOptions {
@@ -53,19 +53,22 @@ dependencies {
     implementation(project(Modules.heroDomain))
     implementation(project(Modules.heroInteractors))
     implementation(project(Modules.ui_heroList))
+    implementation(project(Modules.ui_heroDetail))
 
     implementation(AndroidX.coreKtx)
     implementation(AndroidX.appCompat)
     implementation(AndroidX.lifecycleVmKtx)
 
     // Compose
-    val composeBom = platform(MyCompose.composeBom)
+    val composeBom = platform(Compose.composeBom)
     implementation(composeBom)
 
-    implementation(MyCompose.composeRuntime)
-    implementation(MyCompose.composeUi)
-    implementation(MyCompose.composeMaterial)
-    implementation(MyCompose.ComposeActivity)
+    implementation(Compose.composeRuntime)
+    implementation(Compose.composeUi)
+    implementation(Compose.composeMaterial)
+    implementation(Compose.composeActivity)
+    implementation(Compose.composeActivity)
+    implementation(Compose.composeNavigation)
 
     implementation(Coil.coil)
 
@@ -74,5 +77,6 @@ dependencies {
     implementation(SqlDelight.androidDriver)
 
     implementation(Hilt.android)
+    implementation(Hilt.navigationCompose)
     kapt(Hilt.compiler)
 }

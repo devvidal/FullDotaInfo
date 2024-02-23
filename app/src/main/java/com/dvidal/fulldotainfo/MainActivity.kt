@@ -3,64 +3,83 @@ package com.dvidal.fulldotainfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Text
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import com.dvidal.core.DataState
-import com.dvidal.core.Logger
-import com.dvidal.core.ProgressBarState
-import com.dvidal.core.UIComponent
+import androidx.activity.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import coil.request.ImageRequest
+import com.dvidal.fulldotainfo.navigation.Screen
+import com.dvidal.fulldotainfo.navigation.Screen.Companion.ARG_HERO_ID
 import com.dvidal.fulldotainfo.theme.DotaInfoTheme
-import com.dvidal.hero_interactors.HeroInteractors
+import com.dvidal.ui_herodetail.ui.HeroDetail
 import com.dvidal.ui_herolist.ui.HeroListScreen
-import com.dvidal.ui_herolist.ui.HeroListState
-import com.squareup.sqldelight.android.AndroidSqliteDriver
+import com.dvidal.ui_herolist.ui.HeroListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val state = mutableStateOf(HeroListState())
-    private val progressBarState: MutableState<ProgressBarState> =
-        mutableStateOf(ProgressBarState.Idle)
+    private val viewModel: HeroListViewModel by viewModels()
+
+    @Inject
+    lateinit var imageBuilder: ImageRequest.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val getHeros = HeroInteractors.build(
-            sqlDriver = AndroidSqliteDriver(
-                schema = HeroInteractors.schema,
-                context = this,
-                name = HeroInteractors.dbName
-            )
-        ).getHeros
-        val logger = Logger("GetHerosTest")
-        getHeros.execute().onEach { dataState ->
-            when (dataState) {
-                is DataState.Data -> {
-                    state.value = state.value.copy(heros = dataState.data ?: emptyList())
-                }
-                is DataState.Loading -> progressBarState.value = dataState.pbState
-                is DataState.Response -> {
-                    when (dataState.uiComponent) {
-                        is UIComponent.Dialog -> logger.log((dataState.uiComponent as UIComponent.Dialog).description)
-                        is UIComponent.None -> logger.log((dataState.uiComponent as UIComponent.None).message)
-                    }
-                }
-                else -> {}
-            }
-        }.launchIn(CoroutineScope(IO))
-
         setContent {
             DotaInfoTheme {
-                HeroListScreen(
-                    state = state.value,
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController,
+                    startDestination = Screen.HeroList.route,
+                    builder = {
+                        addHeroList(
+                            viewModel = viewModel,
+                            navController = navController,
+                            imageBuilder = imageBuilder
+                        )
+                        addHeroDetail(
+                            imageBuilder = imageBuilder
+                        )
+
+                    }
                 )
             }
         }
+    }
+}
+
+fun NavGraphBuilder.addHeroList(
+    viewModel: HeroListViewModel,
+    navController: NavController,
+    imageBuilder: ImageRequest.Builder
+) {
+    composable(
+        route = Screen.HeroList.route
+    ) {
+
+        HeroListScreen(
+            state = viewModel.state.value,
+            imageBuilder = imageBuilder,
+            navigateToDetailScreen = { heroId ->
+                navController.navigate("${Screen.HeroDetail.route}/$heroId")
+            }
+        )
+    }
+}
+
+fun NavGraphBuilder.addHeroDetail(
+    imageBuilder: ImageRequest.Builder
+) {
+    composable(
+        route = Screen.HeroDetail.route + "/{$ARG_HERO_ID}",
+        arguments = Screen.HeroDetail.arguments
+    ) {
+        HeroDetail( heroId = it.arguments?.getInt(ARG_HERO_ID) )
     }
 }

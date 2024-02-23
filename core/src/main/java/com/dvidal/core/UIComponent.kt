@@ -1,13 +1,13 @@
 package com.dvidal.core
 
-sealed class UIComponent {
+sealed interface UIComponent {
 
     data class Dialog(
         val title: String,
         val description: String
-    ): UIComponent()
+    ): UIComponent
 
     data class None(
         val message: String
-    ): UIComponent()
+    ): UIComponent
 }
