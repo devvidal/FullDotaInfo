@@ -4,7 +4,8 @@ object Hilt {
     const val compiler = "com.google.dagger:hilt-compiler:$hiltVersion"
 
     private const val navigationComposeVersion = "1.0.0"
-    const val navigationCompose = "androidx.hilt:hilt-navigation-fragment:$navigationComposeVersion"
+    const val navigationComposeFragment = "androidx.hilt:hilt-navigation-fragment:$navigationComposeVersion"
+    const val navigationCompose = "androidx.hilt:hilt-navigation-compose:$navigationComposeVersion"
 }
 
 object HiltTest {

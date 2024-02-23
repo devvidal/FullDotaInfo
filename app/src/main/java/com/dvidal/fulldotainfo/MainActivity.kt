@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
@@ -80,9 +81,9 @@ class MainActivity : ComponentActivity() {
             route = Screen.HeroDetail.route + "/{${Constants.ARG_HERO_ID}}",
             arguments = Screen.HeroDetail.arguments
         ) {
-            val viewModel: HeroDetailViewModel by viewModels()
-            val heroId = it.arguments?.getInt(Constants.ARG_HERO_ID) ?: 0
-            viewModel.onTriggerEvent(HeroDetailEvents.GetHeroFromCache(heroId))
+
+            // We need to use hiltViewModel() to be able to use SavedStateHandle properly
+            val viewModel: HeroDetailViewModel = hiltViewModel()
 
             HeroDetailScreen(
                 state = viewModel.state.value

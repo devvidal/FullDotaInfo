@@ -78,6 +78,7 @@ dependencies {
     implementation(SqlDelight.androidDriver)
 
     implementation(Hilt.android)
+//    implementation(Hilt.navigationComposeFragment)
     implementation(Hilt.navigationCompose)
     kapt(Hilt.compiler)
 }

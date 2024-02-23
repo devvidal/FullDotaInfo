@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.dvidal.constants.Constants
 import com.dvidal.core.DataState
 import com.dvidal.hero_interactors.GetHeroFromCache
+import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -17,9 +18,16 @@ import javax.inject.Inject
 @HiltViewModel
 class HeroDetailViewModel @Inject constructor(
     private val getHeroFromCache: GetHeroFromCache,
+    savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
     val state: MutableState<HeroDetailState> = mutableStateOf(HeroDetailState())
+
+    init {
+        savedStateHandle.get<Int>(Constants.ARG_HERO_ID)?.let { heroId ->
+            onTriggerEvent(HeroDetailEvents.GetHeroFromCache(heroId))
+        }
+    }
 
     fun onTriggerEvent(event: HeroDetailEvents) {
         when(event) {
