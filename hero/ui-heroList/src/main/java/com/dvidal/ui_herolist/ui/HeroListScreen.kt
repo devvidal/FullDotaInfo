@@ -1,7 +1,8 @@
-@file:OptIn(ExperimentalComposeUiApi::class)
+@file:OptIn(ExperimentalComposeUiApi::class, ExperimentalAnimationApi::class)
 
 package com.dvidal.ui_herolist.ui
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import coil.request.ImageRequest
 import com.dvidal.core.ProgressBarState
+import com.dvidal.ui_herolist.components.HeroListFilter
 import com.dvidal.ui_herolist.components.HeroListItem
 import com.dvidal.ui_herolist.components.HeroListToolbar
 
@@ -48,6 +50,12 @@ fun HeroListScreen(
                 }
             }
         }
+
+        HeroListFilter(
+            heroFilter = state.heroFilter,
+            onUpdateHeroFilter = { events(HeroListEvents.UpdateHeroFilter(it)) },
+            onCloseDialog = {}
+        )
 
         if (state.pbState is ProgressBarState.Loading) {
             CircularProgressIndicator(

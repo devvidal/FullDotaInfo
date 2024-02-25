@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.dvidal.core.DataState
 import com.dvidal.core.Logger
 import com.dvidal.core.UIComponent
+import com.dvidal.hero_domain.HeroFilter
+import com.dvidal.hero_interactors.FilterHeros
 import com.dvidal.hero_interactors.GetHeros
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -16,6 +18,7 @@ import javax.inject.Named
 @HiltViewModel
 class HeroListViewModel @Inject constructor(
     private val getHeros: GetHeros,
+    private val filterHeros: FilterHeros,
     @Named("heroListLogger") private val logger: Logger
 ): ViewModel() {
 
@@ -30,6 +33,10 @@ class HeroListViewModel @Inject constructor(
             is HeroListEvents.GetHeros -> getHeros()
             is HeroListEvents.FilterHeros -> filterHeros()
             is HeroListEvents.UpdateHeroName -> updateHeroName(event.heroName)
+            is HeroListEvents.UpdateHeroFilter -> updateHeroFilter(event.heroFilter)
+            is HeroListEvents.UpdateFilterDialogState -> {
+                state.value = state.value.copy(filterDialogState = event.uiComponentState)
+            }
         }
     }
 
@@ -58,10 +65,18 @@ class HeroListViewModel @Inject constructor(
     }
 
     private fun filterHeros() {
-        val filteredList = state.value.heros.filter {
-            it.localizedName.lowercase().contains(state.value.heroName.lowercase())
-        }.toMutableList()
+        val filteredList = filterHeros.execute(
+            currentList = state.value.heros,
+            heroName = state.value.heroName,
+            heroFilter = state.value.heroFilter,
+            attributeFilter = state.value.primaryAttribute
+        )
 
         state.value = state.value.copy(filteredHeros = filteredList)
+    }
+
+    private fun updateHeroFilter(heroFilter: HeroFilter) {
+        state.value = state.value.copy(heroFilter = heroFilter)
+        filterHeros()
     }
 }
