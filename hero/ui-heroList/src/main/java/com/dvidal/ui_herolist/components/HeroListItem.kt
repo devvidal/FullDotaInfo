@@ -18,15 +18,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.dvidal.components.R
+import com.dvidal.constants.Constants
 import com.dvidal.hero_domain.Hero
-import com.dvidal.ui_herolist.R
 import com.dvidal.ui_herolist.ui.test.TAG_HERO_NAME
 import com.dvidal.ui_herolist.ui.test.TAG_HERO_PRIMARY_ATTRIBUTE
 import kotlin.math.roundToInt
@@ -61,7 +61,7 @@ fun HeroListItem(
                     .height(70.dp)
                     .background(Color.LightGray),
                 model = imageBuilder
-                    .data(HERO_IMAGE)
+                    .data(Constants.HERO_IMAGE)
                     .crossfade(true)
                     .build(),
                 error = painterResource(R.drawable.error_image),
@@ -116,5 +116,3 @@ fun HeroListItem(
         }
     }
 }
-
-private const val HERO_IMAGE = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/life_stealer.png"

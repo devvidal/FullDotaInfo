@@ -45,7 +45,7 @@ class HeroDetailViewModel @Inject constructor(
                     state.value = state.value.copy(hero = dataState.data)
                 }
                 is DataState.Response -> {
-                    Log.d("HeroDetailViewModel", "Entrou aqui")
+
                 }
             }
         }.launchIn(viewModelScope)

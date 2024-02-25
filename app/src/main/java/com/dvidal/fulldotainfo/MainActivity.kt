@@ -65,6 +65,7 @@ class MainActivity : ComponentActivity() {
 
             HeroListScreen(
                 state = viewModel.state.value,
+                events = viewModel::onTriggerEvent,
                 imageBuilder = imageBuilder,
                 navigateToDetailScreen = { heroId ->
                     navController.navigate("${Screen.HeroDetail.route}/$heroId")
@@ -86,7 +87,8 @@ class MainActivity : ComponentActivity() {
             val viewModel: HeroDetailViewModel = hiltViewModel()
 
             HeroDetailScreen(
-                state = viewModel.state.value
+                state = viewModel.state.value,
+                imageBuilder = imageBuilder
             )
         }
     }

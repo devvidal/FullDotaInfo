@@ -7,11 +7,7 @@ import com.dvidal.core.DataState
 import com.dvidal.core.Logger
 import com.dvidal.core.UIComponent
 import com.dvidal.hero_interactors.GetHeros
-import com.dvidal.hero_interactors.HeroInteractors
-import com.squareup.sqldelight.android.AndroidSqliteDriver
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -31,7 +27,9 @@ class HeroListViewModel @Inject constructor(
 
     fun onTriggerEvent(event: HeroListEvents) {
         when(event) {
-            HeroListEvents.GetHeros -> getHeros()
+            is HeroListEvents.GetHeros -> getHeros()
+            is HeroListEvents.FilterHeros -> filterHeros()
+            is HeroListEvents.UpdateHeroName -> updateHeroName(event.heroName)
         }
     }
 
@@ -41,6 +39,7 @@ class HeroListViewModel @Inject constructor(
             when (dataState) {
                 is DataState.Data -> {
                     state.value = state.value.copy(heros = dataState.data ?: emptyList())
+                    filterHeros()
                 }
                 is DataState.Loading -> state.value = state.value.copy(pbState = dataState.pbState)
                 is DataState.Response -> {
@@ -52,5 +51,17 @@ class HeroListViewModel @Inject constructor(
                 else -> {}
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun updateHeroName(heroName: String) {
+        state.value = state.value.copy(heroName = heroName)
+    }
+
+    private fun filterHeros() {
+        val filteredList = state.value.heros.filter {
+            it.localizedName.lowercase().contains(state.value.heroName.lowercase())
+        }.toMutableList()
+
+        state.value = state.value.copy(filteredHeros = filteredList)
     }
 }
