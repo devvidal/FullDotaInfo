@@ -45,7 +45,7 @@ fun OrderSelector(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 24.dp, bottom = 8.dp)
+                .padding(start = 24.dp)
                 .testTag(TAG_HERO_FILTER_DESC)
                 .clickable(
                     interactionSource = remember {
@@ -72,6 +72,8 @@ fun OrderSelector(
                 colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
             )
             Text(
+                modifier = Modifier
+                    .align(Alignment.CenterVertically),
                 text = descString,
                 style = MaterialTheme.typography.body1,
             )
@@ -83,7 +85,7 @@ fun OrderSelector(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 24.dp, bottom = 8.dp)
+                .padding(start = 24.dp)
                 .clickable(
                     interactionSource = remember {
                         MutableInteractionSource ()
@@ -109,6 +111,8 @@ fun OrderSelector(
                 colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
             )
             Text(
+                modifier = Modifier
+                    .align(Alignment.CenterVertically),
                 text = ascString,
                 style = MaterialTheme.typography.body1,
             )

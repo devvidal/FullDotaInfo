@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.dvidal.core.DataState
 import com.dvidal.core.Logger
 import com.dvidal.core.UIComponent
+import com.dvidal.hero_domain.HeroAttribute
 import com.dvidal.hero_domain.HeroFilter
 import com.dvidal.hero_interactors.FilterHeros
 import com.dvidal.hero_interactors.GetHeros
@@ -37,6 +38,8 @@ class HeroListViewModel @Inject constructor(
             is HeroListEvents.UpdateFilterDialogState -> {
                 state.value = state.value.copy(filterDialogState = event.uiComponentState)
             }
+
+            is HeroListEvents.UpdateAttributeFilter -> updateAttributeFilter(event.attribute)
         }
     }
 
@@ -79,4 +82,10 @@ class HeroListViewModel @Inject constructor(
         state.value = state.value.copy(heroFilter = heroFilter)
         filterHeros()
     }
+
+    private fun updateAttributeFilter(attribute: HeroAttribute) {
+        state.value = state.value.copy(primaryAttribute = attribute)
+        filterHeros()
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.dvidal.ui_herolist.ui
 
 import com.dvidal.core.UiComponentState
+import com.dvidal.hero_domain.HeroAttribute
 import com.dvidal.hero_domain.HeroFilter
 
 sealed class HeroListEvents {
@@ -17,5 +18,9 @@ sealed class HeroListEvents {
 
     data class UpdateFilterDialogState(
         val uiComponentState: UiComponentState
+    ): HeroListEvents()
+
+    data class UpdateAttributeFilter(
+        val attribute: HeroAttribute
     ): HeroListEvents()
 }
