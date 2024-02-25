@@ -1,6 +1,5 @@
 package com.dvidal.ui_herodetail.ui
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -9,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.dvidal.constants.Constants
 import com.dvidal.core.DataState
 import com.dvidal.hero_interactors.GetHeroFromCache
-import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -39,7 +37,7 @@ class HeroDetailViewModel @Inject constructor(
         getHeroFromCache.execute(id).onEach { dataState ->
             when(dataState) {
                 is DataState.Loading -> {
-                    state.value = state.value.copy(progressBarState = dataState.pbState)
+                    state.value = state.value.copy(pbState = dataState.pbState)
                 }
                 is DataState.Data -> {
                     state.value = state.value.copy(hero = dataState.data)

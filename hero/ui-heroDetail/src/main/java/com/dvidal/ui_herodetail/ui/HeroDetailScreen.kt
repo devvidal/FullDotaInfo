@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.dvidal.components.DefaultScreenUI
 import com.dvidal.constants.Constants
 import com.dvidal.hero_domain.Hero
 import com.dvidal.hero_domain.maxAttackDmg
@@ -33,80 +34,84 @@ fun HeroDetailScreen(
     imageBuilder: ImageRequest.Builder,
 ) {
 
-    state.hero?.let{ hero ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.background)
-        ) {
-            item {
-                Column {
+    DefaultScreenUI(
+        pbState = state.pbState
+    ) {
+        state.hero?.let{ hero ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background)
+            ) {
+                item {
+                    Column {
 
-                    AsyncImage(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .defaultMinSize(minHeight = 200.dp),
-                        model = imageBuilder
-                            .data(Constants.HERO_IMAGE)
-                            .crossfade(true)
-                            .build(),
-                        error = painterResource(com.dvidal.components.R.drawable.error_image),
-                        placeholder = painterResource(
-                            if (isSystemInDarkTheme())
-                                com.dvidal.components.R.drawable.black_background
-                            else com.dvidal.components.R.drawable.white_background
-                        ),
-                        contentDescription = hero.localizedName,
-                        contentScale = ContentScale.Crop
-                    )
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(12.dp)
-                    ) {
-                        Row(
+                        AsyncImage(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
+                                .defaultMinSize(minHeight = 200.dp),
+                            model = imageBuilder
+                                .data(Constants.HERO_IMAGE)
+                                .crossfade(true)
+                                .build(),
+                            error = painterResource(com.dvidal.components.R.drawable.error_image),
+                            placeholder = painterResource(
+                                if (isSystemInDarkTheme())
+                                    com.dvidal.components.R.drawable.black_background
+                                else com.dvidal.components.R.drawable.white_background
+                            ),
+                            contentDescription = hero.localizedName,
+                            contentScale = ContentScale.Crop
+                        )
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(12.dp)
                         ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    modifier = Modifier
+                                        .align(Alignment.CenterVertically)
+                                        .padding(end = 8.dp),
+                                    text = hero.localizedName,
+                                    style = MaterialTheme.typography.h1,
+                                )
+                                Image(
+                                    modifier = Modifier
+                                        .height(30.dp)
+                                        .width(30.dp)
+                                        .align(Alignment.CenterVertically),
+                                    painter = painterResource(id = com.dvidal.components.R.drawable.ic_dota),
+                                    contentDescription = hero.localizedName,
+                                    contentScale = ContentScale.Crop
+                                )
+                            }
                             Text(
                                 modifier = Modifier
-                                    .align(Alignment.CenterVertically)
-                                    .padding(end = 8.dp),
-                                text = hero.localizedName,
-                                style = MaterialTheme.typography.h1,
+                                    .padding(bottom = 4.dp),
+                                text = hero.primaryAttribute.uiValue,
+                                style = MaterialTheme.typography.subtitle1,
                             )
-                            Image(
+                            Text(
                                 modifier = Modifier
-                                    .height(30.dp)
-                                    .width(30.dp)
-                                    .align(Alignment.CenterVertically),
-                                painter = painterResource(id = com.dvidal.components.R.drawable.ic_dota),
-                                contentDescription = hero.localizedName,
-                                contentScale = ContentScale.Crop
+                                    .padding(bottom = 12.dp),
+                                text = hero.attackType.uiValue,
+                                style = MaterialTheme.typography.caption,
                             )
+                            HeroBaseStats(
+                                hero = hero,
+                                padding = 10.dp,
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            WinPercentages(hero = hero,)
                         }
-                        Text(
-                            modifier = Modifier
-                                .padding(bottom = 4.dp),
-                            text = hero.primaryAttribute.uiValue,
-                            style = MaterialTheme.typography.subtitle1,
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(bottom = 12.dp),
-                            text = hero.attackType.uiValue,
-                            style = MaterialTheme.typography.caption,
-                        )
-                        HeroBaseStats(
-                            hero = hero,
-                            padding = 10.dp,
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        WinPercentages(hero = hero,)
                     }
                 }
             }

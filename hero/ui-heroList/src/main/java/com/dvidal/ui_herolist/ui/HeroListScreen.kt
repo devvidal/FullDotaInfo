@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import coil.request.ImageRequest
+import com.dvidal.components.DefaultScreenUI
 import com.dvidal.core.ProgressBarState
 import com.dvidal.core.UiComponentState
 import com.dvidal.ui_herolist.components.HeroListFilter
@@ -29,7 +30,9 @@ fun HeroListScreen(
     imageBuilder: ImageRequest.Builder,
     navigateToDetailScreen: (Int) -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    DefaultScreenUI(
+        pbState = state.pbState
+    ) {
         Column {
             HeroListToolbar(
                 heroName = state.heroName,
