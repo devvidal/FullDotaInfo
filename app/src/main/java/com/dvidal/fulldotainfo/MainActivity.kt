@@ -1,9 +1,18 @@
+@file:OptIn(ExperimentalAnimationApi::class)
+
 package com.dvidal.fulldotainfo
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -14,7 +23,6 @@ import coil.request.ImageRequest
 import com.dvidal.constants.Constants
 import com.dvidal.fulldotainfo.navigation.Screen
 import com.dvidal.fulldotainfo.theme.DotaInfoTheme
-import com.dvidal.ui_herodetail.ui.HeroDetailEvents
 import com.dvidal.ui_herodetail.ui.HeroDetailScreen
 import com.dvidal.ui_herodetail.ui.HeroDetailViewModel
 import com.dvidal.ui_herolist.ui.HeroListScreen
@@ -35,31 +43,58 @@ class MainActivity : ComponentActivity() {
             DotaInfoTheme {
                 val navController = rememberNavController()
 
-                NavHost(
-                    navController = navController,
-                    startDestination = Screen.HeroList.route,
-                    builder = {
+                BoxWithConstraints {
+                    val boxWithConstraintsScope = this
 
-                        addHeroList(
-                            navController = navController,
-                            imageBuilder = imageBuilder
-                        )
-                        addHeroDetail(
-                            imageBuilder = imageBuilder
-                        )
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.HeroList.route,
+                        builder = {
 
-                    }
-                )
+                            addHeroList(
+                                navController = navController,
+                                imageBuilder = imageBuilder,
+                                width = constraints.maxWidth / 2
+                            )
+                            addHeroDetail(
+                                imageBuilder = imageBuilder,
+                                width = constraints.maxWidth / 2
+                            )
+
+                        }
+                    )
+                }
             }
         }
     }
 
     private fun NavGraphBuilder.addHeroList(
         navController: NavController,
-        imageBuilder: ImageRequest.Builder
+        imageBuilder: ImageRequest.Builder,
+        width: Int
     ) {
         composable(
-            route = Screen.HeroList.route
+            route = Screen.HeroList.route,
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { -width },
+                    animationSpec = tween(
+                        durationMillis = 300
+                    )
+                ) + fadeOut(
+                    animationSpec = tween(300)
+                )
+            },
+            popEnterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { -width },
+                    animationSpec = tween(
+                        durationMillis = 300
+                    )
+                ) + fadeIn(
+                    animationSpec = tween(300)
+                )
+            }
         ) {
             val viewModel: HeroListViewModel by viewModels()
 
@@ -75,12 +110,33 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun NavGraphBuilder.addHeroDetail(
-        imageBuilder: ImageRequest.Builder
+        imageBuilder: ImageRequest.Builder,
+        width: Int
     ) {
 
         composable(
             route = Screen.HeroDetail.route + "/{${Constants.ARG_HERO_ID}}",
-            arguments = Screen.HeroDetail.arguments
+            arguments = Screen.HeroDetail.arguments,
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { width },
+                    animationSpec = tween(
+                        durationMillis = 300
+                    )
+                ) + fadeIn(
+                    animationSpec = tween(300)
+                )
+            },
+            popExitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { width },
+                    animationSpec = tween(
+                        durationMillis = 300
+                    )
+                ) + fadeOut(
+                    animationSpec = tween(300)
+                )
+            }
         ) {
 
             // We need to use hiltViewModel() to be able to use SavedStateHandle properly
