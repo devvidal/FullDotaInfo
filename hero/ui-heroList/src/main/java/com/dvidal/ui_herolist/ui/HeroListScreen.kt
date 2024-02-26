@@ -31,7 +31,9 @@ fun HeroListScreen(
     navigateToDetailScreen: (Int) -> Unit
 ) {
     DefaultScreenUI(
-        pbState = state.pbState
+        pbState = state.pbState,
+        queue = state.errorQueue,
+        onRemoveHeadFromQueue = { events(HeroListEvents.OnRemoveHeadFromQueue) }
     ) {
         Column {
             HeroListToolbar(

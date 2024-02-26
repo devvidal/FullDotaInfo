@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvidal.core.DataState
 import com.dvidal.core.Logger
+import com.dvidal.core.Queue
 import com.dvidal.core.UIComponent
 import com.dvidal.hero_domain.HeroAttribute
 import com.dvidal.hero_domain.HeroFilter
@@ -40,6 +41,7 @@ class HeroListViewModel @Inject constructor(
             }
 
             is HeroListEvents.UpdateAttributeFilter -> updateAttributeFilter(event.attribute)
+            is HeroListEvents.OnRemoveHeadFromQueue -> removeHeadFromQueue()
         }
     }
 
@@ -54,7 +56,9 @@ class HeroListViewModel @Inject constructor(
                 is DataState.Loading -> state.value = state.value.copy(pbState = dataState.pbState)
                 is DataState.Response -> {
                     when (dataState.uiComponent) {
-                        is UIComponent.Dialog -> logger.log((dataState.uiComponent as UIComponent.Dialog).description)
+                        is UIComponent.Dialog -> {
+                            appendToMessageQueue(dataState.uiComponent)
+                        }
                         is UIComponent.None -> logger.log((dataState.uiComponent as UIComponent.None).message)
                     }
                 }
@@ -88,4 +92,22 @@ class HeroListViewModel @Inject constructor(
         filterHeros()
     }
 
+    private fun appendToMessageQueue(uiComponent: UIComponent) {
+        val queue = state.value.errorQueue
+        queue.add(uiComponent)
+        state.value = state.value.copy(errorQueue = Queue(mutableListOf())) // force recompose
+        state.value = state.value.copy(errorQueue = queue)
+    }
+
+    private fun removeHeadFromQueue() {
+        try {
+            val queue = state.value.errorQueue
+            queue.remove()
+
+            state.value = state.value.copy(errorQueue = Queue(mutableListOf())) // force recompose
+            state.value = state.value.copy(errorQueue = queue)
+        } catch (e: Exception) {
+            logger.log("Nothing to remove from DialogQueue")
+        }
+    }
 }

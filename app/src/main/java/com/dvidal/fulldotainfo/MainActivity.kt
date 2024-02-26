@@ -44,13 +44,10 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 BoxWithConstraints {
-                    val boxWithConstraintsScope = this
-
                     NavHost(
                         navController = navController,
                         startDestination = Screen.HeroList.route,
                         builder = {
-
                             addHeroList(
                                 navController = navController,
                                 imageBuilder = imageBuilder,
@@ -60,7 +57,6 @@ class MainActivity : ComponentActivity() {
                                 imageBuilder = imageBuilder,
                                 width = constraints.maxWidth / 2
                             )
-
                         }
                     )
                 }
@@ -79,10 +75,10 @@ class MainActivity : ComponentActivity() {
                 slideOutHorizontally(
                     targetOffsetX = { -width },
                     animationSpec = tween(
-                        durationMillis = 300
+                        durationMillis = TRANSITION_ANIMATION_DURATION
                     )
                 ) + fadeOut(
-                    animationSpec = tween(300)
+                    animationSpec = tween(TRANSITION_ANIMATION_DURATION)
                 )
             },
             popEnterTransition = {
@@ -92,7 +88,7 @@ class MainActivity : ComponentActivity() {
                         durationMillis = 300
                     )
                 ) + fadeIn(
-                    animationSpec = tween(300)
+                    animationSpec = tween(TRANSITION_ANIMATION_DURATION)
                 )
             }
         ) {
@@ -121,20 +117,20 @@ class MainActivity : ComponentActivity() {
                 slideInHorizontally(
                     initialOffsetX = { width },
                     animationSpec = tween(
-                        durationMillis = 300
+                        durationMillis = TRANSITION_ANIMATION_DURATION
                     )
                 ) + fadeIn(
-                    animationSpec = tween(300)
+                    animationSpec = tween(TRANSITION_ANIMATION_DURATION)
                 )
             },
             popExitTransition = {
                 slideOutHorizontally(
                     targetOffsetX = { width },
                     animationSpec = tween(
-                        durationMillis = 300
+                        durationMillis = TRANSITION_ANIMATION_DURATION
                     )
                 ) + fadeOut(
-                    animationSpec = tween(300)
+                    animationSpec = tween(TRANSITION_ANIMATION_DURATION)
                 )
             }
         ) {
@@ -144,9 +140,14 @@ class MainActivity : ComponentActivity() {
 
             HeroDetailScreen(
                 state = viewModel.state.value,
+                events = viewModel::onTriggerEvent,
                 imageBuilder = imageBuilder
             )
         }
     }
-}
 
+    private companion object {
+
+        private const val TRANSITION_ANIMATION_DURATION = 300
+    }
+}

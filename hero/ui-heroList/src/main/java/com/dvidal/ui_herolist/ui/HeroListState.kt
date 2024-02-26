@@ -1,6 +1,8 @@
 package com.dvidal.ui_herolist.ui
 
 import com.dvidal.core.ProgressBarState
+import com.dvidal.core.Queue
+import com.dvidal.core.UIComponent
 import com.dvidal.core.UiComponentState
 import com.dvidal.hero_domain.Hero
 import com.dvidal.hero_domain.HeroAttribute
@@ -13,5 +15,6 @@ data class HeroListState(
     val heroName: String = "",
     val heroFilter: HeroFilter = HeroFilter.Hero(),
     val primaryAttribute: HeroAttribute = HeroAttribute.Unknown,
-    val filterDialogState: UiComponentState = UiComponentState.Hide
+    val filterDialogState: UiComponentState = UiComponentState.Hide,
+    val errorQueue: Queue<UIComponent> = Queue(mutableListOf())
 )

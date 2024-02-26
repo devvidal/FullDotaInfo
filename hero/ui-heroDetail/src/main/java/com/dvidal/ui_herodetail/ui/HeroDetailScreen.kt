@@ -31,11 +31,14 @@ import com.dvidal.ui_herodetail.R
 @Composable
 fun HeroDetailScreen(
     state: HeroDetailState,
+    events: (HeroDetailEvents) -> Unit,
     imageBuilder: ImageRequest.Builder,
 ) {
 
     DefaultScreenUI(
-        pbState = state.pbState
+        pbState = state.pbState,
+        queue = state.errorQueue,
+        onRemoveHeadFromQueue = { events(HeroDetailEvents.OnRemoveHeadFromQueue) }
     ) {
         state.hero?.let{ hero ->
             LazyColumn(
