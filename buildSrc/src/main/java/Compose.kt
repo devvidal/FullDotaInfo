@@ -1,6 +1,6 @@
 object Compose {
 
-    const val composeVersion = "1.3.3"
+    const val composeVersion = "1.6.2"
 
     private const val activityComposeVersion = "1.8.2"
     const val composeKotlinCompilerVersion = "1.5.9"

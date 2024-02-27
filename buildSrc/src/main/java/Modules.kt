@@ -8,7 +8,6 @@ object Modules {
 
     const val constants = ":constants"
 
-    const val hero = ":hero"
     const val heroDataSource = ":hero:hero-datasource"
     const val heroDataSourceTest = ":hero:hero-datasource-test"
     const val heroDomain = ":hero:hero-domain"

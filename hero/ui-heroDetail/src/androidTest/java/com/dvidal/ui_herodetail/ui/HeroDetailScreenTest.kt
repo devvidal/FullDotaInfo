@@ -24,7 +24,7 @@ class HeroDetailScreenTest {
     @Test
     fun isHeroDataShown() {
         // choose a random hero
-        val hero = heroData.get(Random.nextInt(0, heroData.size - 1))
+        val hero = heroData[Random.nextInt(0, heroData.size - 1)]
 
         composeTestRule.setContent {
             val state = remember {
