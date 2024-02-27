@@ -20,7 +20,7 @@ data class HeroInteractors(
             val cache = HeroCache.build(sqlDriver)
 
             return HeroInteractors(
-                getHeros = GetHeros(service, cache),
+                getHeros = GetHeros(cache, service),
                 getHeroFromCache = GetHeroFromCache(cache),
                 filterHeros = FilterHeros()
             )

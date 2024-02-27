@@ -7,7 +7,7 @@ sealed class HeroFilter(
 ) {
 
     data class Hero(
-        val order: FilterOrder = FilterOrder.Descending
+        val order: FilterOrder = FilterOrder.Ascending
     ): HeroFilter("Hero")
 
     data class ProWins(

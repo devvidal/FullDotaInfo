@@ -9,4 +9,10 @@ dependencies {
     "implementation"(project(Modules.heroInteractors))
 
     "implementation"(Coil.coil)
+
+    "androidTestImplementation"(project(Modules.heroDataSourceTest))
+    "androidTestImplementation"(ComposeTest.uiTestJunit4)
+    "androidTestImplementation"(Coil.coilTest) // not necessary, but maybe one day will be
+    "debugImplementation"(ComposeTest.uiTestManifest)
+    "androidTestImplementation"(Junit.junit4)
 }

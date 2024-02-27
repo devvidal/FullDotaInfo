@@ -16,7 +16,7 @@ android {
         versionCode = Android.versionCode
         versionName = Android.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.dvidal.fulldotainfo.CustomTestRunner"
     }
 
     buildTypes {
@@ -51,6 +51,7 @@ android {
 dependencies {
     implementation(project(Modules.core))
     implementation(project(Modules.constants))
+    implementation(project(Modules.heroDataSource))
     implementation(project(Modules.heroDomain))
     implementation(project(Modules.heroInteractors))
     implementation(project(Modules.ui_heroList))
@@ -78,7 +79,13 @@ dependencies {
     implementation(SqlDelight.androidDriver)
 
     implementation(Hilt.android)
-//    implementation(Hilt.navigationComposeFragment)
     implementation(Hilt.navigationCompose)
     kapt(Hilt.compiler)
+
+    androidTestImplementation(project(Modules.heroDataSourceTest))
+    androidTestImplementation(AndroidXTest.runner)
+    androidTestImplementation(ComposeTest.uiTestJunit4)
+    androidTestImplementation(HiltTest.hiltAndroidTesting)
+    kaptAndroidTest(Hilt.compiler)
+    androidTestImplementation(Junit.junit4)
 }

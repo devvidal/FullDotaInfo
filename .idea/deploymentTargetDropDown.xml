@@ -2,7 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="HeroListEndToEnd">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="isHeroDataShown()">
+        <State />
+      </entry>
+      <entry key="testFilterHeroAlphabetically()">
+        <State />
+      </entry>
+      <entry key="testFilterHeroByProWins()">
+        <State />
+      </entry>
+      <entry key="testSearchHeroByName()">
         <State />
       </entry>
     </value>
