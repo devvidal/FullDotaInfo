@@ -177,7 +177,7 @@ class HeroListEndToEnd {
         composeTestRule.onAllNodesWithTag(TAG_HERO_NAME, useUnmergedTree = true).assertAny(hasText("Abaddon"))
     }
 
-    @Ignore
+    @Ignore("not working")
     @Test
     fun testFilterHeroByProWins(){
         // Show the dialog
