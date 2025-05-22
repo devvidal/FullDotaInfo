@@ -1,4 +1,4 @@
-# Dota Heroes App Documentation
+# Documentation
 
 ## 📄 Overview
 This application is inspired by the game **DOTA** and provides a list of all available **heroes**.  
